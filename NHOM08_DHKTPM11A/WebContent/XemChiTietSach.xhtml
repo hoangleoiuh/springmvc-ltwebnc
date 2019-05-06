@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<head>
+<title><ui:insert name="title">Chi tiết sách</ui:insert></title>
+<link rel="stylesheet" href="css\hover.css" type="text/css" />
+<script type="text/javascript">
+	window.onload = function() {
+		setTimeout("switchImg()", 2000);
+	}
+	var dem = 1;
+	var numIMG = 8;
+	function switchImg() {
+		dem++;
+		document.images['image'].src = 'images/h' + dem + '.jpg';
+		if (dem == numIMG) {
+			dem = 0;
+		}
+		setTimeout("switchImg()", 2000);
+	}
+</script>
+<style>
+#hinhtrai{
+	width: 200px;
+	height: auto;
+	float: left;
+}
+#hinhphai{
+	width: 500px;
+	height: auto;
+	float: left;
+}
+.a {
+	text-align: center;
+	float: left;
+	margin: 20px;
+	width: 200px;
+	height: 250px;
+}
+
+.hinh {
+	width: :100px;
+	height: 150px;
+}
+</style>
+
+</head>
+
+<body>
+	<f:view>
+		<div id="main">
+			<div id="top">
+				<h:form rendered="#{taiKhoanBean.hien}">
+					<h:outputText value="Xin chào: " />
+					<h:outputText value="#{taiKhoanBean.tk.tenTK}" />
+				<h:commandButton value="Đăng xuất" action="#{taiKhoanBean.dangxuat}" />
+				</h:form>
+				<div id="t">
+					<ul>
+						<li><a href="DangXayDung.xhtml" target="_blank"> <img name="icon"
+								src='images/icondt.png' width="30px" height="15px" />
+								Hotline
+						</a></li>
+						<li><a href="https://www.facebook.com/"
+							target="_blank"> <img name="icon" src='images/iconfb.png'
+								width="30px" height="15px" /> fb.com/DHKTPM11A_Nhom08
+						</a></li>
+						<li><a href="#"> <img name="icon" src='images/icontk.png'
+								width="30px" height="15px" /> Tài khoản
+						</a>
+							<ul class="hidden">
+								<h:form rendered="#{taiKhoanBean.fDN}">
+
+									<li><h:commandLink value="Đăng nhập"
+											action="#{taiKhoanBean.dangnhap}" /></li>
+									<li><h:commandLink value="Đăng ký"
+											action="#{taiKhoanBean.dangky}" /></li>
+								</h:form>
+							</ul></li>
+						<li><a href="GioHang.xhtml"> <img name="icon" src='images/icongh.png'
+								width="30px" height="15px" /> Giỏ hàng
+								(<h:outputText value="#{gioHangBean.soluong}" />)
+							</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="head">
+				<p>
+					Sách hay, cũng như bạn tốt, ít và được lựa chọn. <br />Chọn lựa
+					càng nhiều, thưởng thức càng nhiều!
+				</p>
+				<img name="image" src='images/h1.jpg' width="100%" height="300px" />
+				<div id="free">
+					<img src='images/free.png' width="250px" height="150px;" />
+				</div>
+				<div id="mt">
+					<img src='images/mt.png' width="200px" height="150px;" />
+				</div>
+			</div>
+			
+
+			<div id="nav">
+				<h:form>
+				<h:inputText type="text" value="#{sachBean.timSach}" label="Nhập nội dung tìm kiếm..."
+					style="width:190px; height:40px;border-radius:10px; margin-right:5px;" />
+				<h:commandButton value="Tìm" action="#{sachBean.btnTimKiem}"
+					style="width:50px; height:40px;border-radius:10px;" />
+			</h:form>
+			</div>
+
+			<div id="content">
+				<div id="nd">
+					<h:form>
+						<br />
+						<div id="hinhtrai">
+							<img src='#{sachBean.sach.hinh}' class="hinh" /> <br />
+						</div>
+						<div id="hinhphai">
+							<h:outputText value="Mã sách: " />
+							<h:outputText value="#{sachBean.sach.maSach}" />
+							<br />
+							<h:outputText value="Tên sách: " />
+							<h:outputText value="#{sachBean.sach.tenSach}" />
+							<br />
+							<h:outputText value="Nhà xuất bản: " />
+							<h:outputText value="#{sachBean.sach.nXB}" />
+							<br />
+							<h:outputText value="Năm phát hành: " />
+							<h:outputText value="#{sachBean.sach.namPH}" />
+							<br />
+							<h:outputText value="Tác giả: " />
+							<h:outputText value="#{sachBean.sach.tacGia}" />
+							<br />
+							<h:outputText value="Giá: " />
+							<h:outputText value="#{sachBean.sach.gia}" />
+							<br />
+							<h:outputText value="Thể loại: " />
+							<h:outputText value="#{sachBean.sach.theLoai}" />
+							<br /> <br />
+							<h:outputText value="Số lượng: " />
+							<h:inputText id="txtSL" size="3" value="#{sachBean.sach.soLuong}" required="true" converterMessage="Vui lòng nhập số" requiredMessage="Sai định dạng" validatorMessage="Số lượng [1,10]">
+								<f:validateLongRange minimum="1" maximum="10" />
+							</h:inputText>
+							<br />
+							<h:message for="txtSL" style="color:red" />
+							<br />
+							<h:commandButton action="#{gioHangBean.addSPGH(sachBean.sach)}"
+								value="Thêm vào giỏ hàng" />
+							<br /> <br /> <br /> <a href="DanhSachSach.xhtml">Trang chủ </a>
+							<br />
+							<br />
+						</div>
+					</h:form>
+				</div>
+			</div>
+
+			<div id="footer">
+				<div id="f1">
+					<h3>Thông tin</h3>
+					<p>
+						<a href="DangXayDung.xhtml"> Hướng dẫn mua hàng</a> <br /> <a href="DangXayDung.xhtml">
+							Phương thức vận chuyển </a> <br /> <a href="DangXayDung.xhtml"> Chính sách bảo
+							mật</a>
+					</p>
+				</div>
+				<div id="f2">
+					<h3>Quản lý tài khoản</h3>
+					<p>
+						<a href="DangXayDung.xhtml"> Liên hệ</a> <br /> <a href="DangXayDung.xhtml"> Đổi/trả hàng </a> <br />
+						<a href="DangXayDung.xhtml"> Sơ đồ trang</a>
+					</p>
+
+				</div>
+				<div id="f3">
+					<h3>Chăm sóc khách hàng</h3>
+					<p>
+						<a href="DangXayDung.xhtml"> Thương hiệu</a> <br /> <a href="DangXayDung.xhtml"> Phiếu quà
+							tặng </a> <br /> <a href="DangXayDung.xhtml"> Cộng tác bán hàng</a> <br /> <a
+							href="DangXayDung.xhtml"> Khuyến mãi</a>
+					</p>
+
+				</div>
+				<div id="f4">
+					<h4>
+						--------------------------------------------------------------------------------------------------
+					</h4>
+					<h3>Bản quyền của Nhóm 08 copy 2018</h3>
+					<a href="#"> Lên trên cùng </a>
+				</div>
+
+			</div>
+
+
+		</div>
+	</f:view>
+</body>
+
+</html>
+
